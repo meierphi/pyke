@@ -93,9 +93,9 @@ if sys.version_info[0] < 3:
             >>> tuple(urepr('hi\n'))
             (u"'", u'h', u'i', u'\\', u'n', u"'")
         '''
-        if isinstance(x, types.StringTypes):
+        if isinstance(x, (str,)):
             return repr(x.encode('utf-8')).decode('utf-8')
-        return unicode(x)
+        return str(x)
 else:
     urepr = repr
 
@@ -113,7 +113,7 @@ def to_int(str):
     try:
         return int(str)
     except ValueError:
-        raise ValueError(u"illegal integer: %s" % urepr(str))
+        raise ValueError("illegal integer: %s" % urepr(str))
 
 def to_float(str):
     r'''
@@ -129,7 +129,7 @@ def to_float(str):
     try:
         return float(str)
     except ValueError:
-        raise ValueError(u"illegal floating point number: %s" % urepr(str))
+        raise ValueError("illegal floating point number: %s" % urepr(str))
 
 def to_number(str):
     r'''
@@ -148,7 +148,7 @@ def to_number(str):
         try:
             return to_float(str)
         except ValueError:
-            raise ValueError(u"illegal number: %s" % urepr(str))
+            raise ValueError("illegal number: %s" % urepr(str))
 
 def to_tuple(str, conv_fn=None, test=None, separator=','):
     r'''
@@ -205,20 +205,20 @@ def msg_for(test, type):
     if isinstance(test, qmap): return msg_for(test.test, type)
     if isinstance(test, slice):
         if test.start is None:
-            if test.stop is not None: ans = u"<= %d" % test.stop
-            else: ans = u""
+            if test.stop is not None: ans = "<= %d" % test.stop
+            else: ans = ""
         elif test.stop is None:
-            ans = u">= %d" % test.start
+            ans = ">= %d" % test.start
         else:
-            ans = u"between %d and %d" % (test.start, test.stop)
-        if (type == str or type == unicode) and ans: ans += u' characters'
+            ans = "between %d and %d" % (test.start, test.stop)
+        if (type == str or type == str) and ans: ans += ' characters'
         return ans
     if isinstance(test, (tuple, list)):
-        return u' or '.join(filter(None, (msg_for(test_i, type)
-                                          for test_i in test)))
+        return ' or '.join([_f for _f in (msg_for(test_i, type)
+                                          for test_i in test) if _f])
     return urepr(test)
 
-def match_prompt(test, type, format, default=u''):
+def match_prompt(test, type, format, default=''):
     r'''
         >>> match_prompt(None, int, u' [%s] ')
         u''
@@ -255,24 +255,24 @@ def match_prompt(test, type, format, default=u''):
         if isinstance(test, slice):
             if test.start is None:
                 if test.stop is not None:
-                    if issubclass(type, types.StringTypes):
-                        return u"len <= %d" % test.stop
+                    if issubclass(type, (str,)):
+                        return "len <= %d" % test.stop
                     else:
-                        return u"max %d" % test.stop
-                else: return u""
+                        return "max %d" % test.stop
+                else: return ""
             elif test.stop is None:
-                if issubclass(type, types.StringTypes):
-                    return u"len >= %d" % test.start
+                if issubclass(type, (str,)):
+                    return "len >= %d" % test.start
                 else:
-                    return u"min %d" % test.start
+                    return "min %d" % test.start
             else:
-                if issubclass(type, types.StringTypes):
-                    return u"len: %d-%d" % (test.start, test.stop)
+                if issubclass(type, (str,)):
+                    return "len: %d-%d" % (test.start, test.stop)
                 else:
-                    return u"%d-%d" % (test.start, test.stop)
+                    return "%d-%d" % (test.start, test.stop)
         if isinstance(test, (tuple, list)):
-            return u' or '.join(filter(None, (prompt_body(test_i, type)
-                                              for test_i in test)))
+            return ' or '.join([_f for _f in (prompt_body(test_i, type)
+                                              for test_i in test) if _f])
         return urepr(test)
 
     body = prompt_body(test, type)
@@ -314,7 +314,7 @@ def match(ans, test):
         match(ans, test.test)   # raises ValueError if it doesn't match
         return test.value
     elif isinstance(test, slice):
-        if isinstance(ans, types.StringTypes): value = len(ans)
+        if isinstance(ans, (str,)): value = len(ans)
         else: value = ans
         if (test.start is None or value >= test.start) and \
            (test.stop is None or value <= test.stop):

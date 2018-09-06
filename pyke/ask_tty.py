@@ -83,17 +83,17 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
     if match_prompt and not match_prompt[-1].isspace(): question += ' '
     if encoding: question = question.encode(encoding)
     while True:
-        print "_" * 78
-        ans = raw_input(question)
+        print("_" * 78)
+        ans = input(question)
         try:
             if encoding and sys.version_info[0] < 3: ans = ans.decode(encoding)
             if conv_fn: ans = conv_fn(ans)
             if test: ans = qa_helpers.match(ans, test)
             break
-        except ValueError, e:
-            print "answer should be %s, got %s" % (str(e), repr(ans))
-            print
-            print "Try Again:"
+        except ValueError as e:
+            print("answer should be %s, got %s" % (str(e), repr(ans)))
+            print()
+            print("Try Again:")
     if review:
         def matches2(ans, test):
             try:
@@ -104,13 +104,13 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
 
         def matches(ans, test):
             if isinstance(ans, (tuple, list)):
-                return any(itertools.imap(lambda elem: matches2(elem, test),
+                return any(map(lambda elem: matches2(elem, test),
                                           ans))
             return matches2(ans, test)
 
         for review_test, review_str in review:
             if matches(ans, review_test):
-                print review_str
+                print(review_str)
     return ans
 
 def ask_yn(question, review=None):
@@ -125,7 +125,7 @@ def ask_yn(question, review=None):
         ______________________________________________________________________________
         got it? (y/n) False
     '''
-    return get_answer(question, u"(y/n)", conv_fn=lambda str: str.lower(),
+    return get_answer(question, "(y/n)", conv_fn=lambda str: str.lower(),
                       test=(qa_helpers.qmap(yes_match, True),
                             qa_helpers.qmap(no_match, False)),
                       review=review)
@@ -138,8 +138,8 @@ def ask_integer(question, match=None, review=None):
         ______________________________________________________________________________
         enter number? (int) 4
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, int, u"[%s]",
-                                                        u'(int)'),
+    return get_answer(question, qa_helpers.match_prompt(match, int, "[%s]",
+                                                        '(int)'),
                       conv_fn=qa_helpers.to_int,
                       test=match,
                       review=review)
@@ -152,8 +152,8 @@ def ask_float(question, match=None, review=None):
         ______________________________________________________________________________
         enter number? (float) 4.0
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, float, u"[%s]",
-                                                        u'(float)'),
+    return get_answer(question, qa_helpers.match_prompt(match, float, "[%s]",
+                                                        '(float)'),
                       conv_fn=qa_helpers.to_float,
                       test=match,
                       review=review)
@@ -166,8 +166,8 @@ def ask_number(question, match=None, review=None):
         ______________________________________________________________________________
         enter number? (number) 4
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, int, u"[%s]",
-                                                        u'(number)'),
+    return get_answer(question, qa_helpers.match_prompt(match, int, "[%s]",
+                                                        '(number)'),
                       conv_fn=qa_helpers.to_number,
                       test=match,
                       review=review)
@@ -180,8 +180,8 @@ def ask_string(question, match=None, review=None):
         ______________________________________________________________________________
         enter string? u'yes'
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, str, u"[%s]",
-                                                        u''),
+    return get_answer(question, qa_helpers.match_prompt(match, str, "[%s]",
+                                                        ''),
                       test=match,
                       review=review)
 
@@ -200,10 +200,10 @@ def ask_select_1(question, alternatives, review=None):
         ? [1-3] 'b'
     '''
     match = slice(1, len(alternatives))
-    question += u''.join(u'\n%3d. %s' %
-                             (i + 1, u'\n     '.join(text.split(u'\n')))
+    question += ''.join('\n%3d. %s' %
+                             (i + 1, '\n     '.join(text.split('\n')))
                         for i, (tag, text) in enumerate(alternatives))
-    i = get_answer(question, qa_helpers.match_prompt(match, int, u"\n? [%s]"),
+    i = get_answer(question, qa_helpers.match_prompt(match, int, "\n? [%s]"),
                    conv_fn=qa_helpers.to_int,
                    test=match,
                    review=review)
@@ -224,11 +224,11 @@ def ask_select_n(question, alternatives, review=None):
         ? [1-3, ...] ('a', 'c')
     '''
     match = slice(1, len(alternatives))
-    question += u''.join(u'\n%3d. %s' %
-                             (i + 1, u'\n     '.join(text.split('\n')))
+    question += ''.join('\n%3d. %s' %
+                             (i + 1, '\n     '.join(text.split('\n')))
                         for i, (tag, text) in enumerate(alternatives))
     i_tuple = get_answer(question, qa_helpers.match_prompt(match, int,
-                                                           u"\n? [%s, ...]"),
+                                                           "\n? [%s, ...]"),
                          conv_fn=lambda str:
                                      qa_helpers.to_tuple(str,
                                          conv_fn=qa_helpers.to_int,

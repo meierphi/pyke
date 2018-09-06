@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import with_statement
+
 from string import Template
 import re
 import os.path
@@ -31,8 +31,8 @@ from pyke import qa_helpers
 from pyke.krb_compiler import scanner
 
 class kqb_parser(object):
-    blank_line = re.compile(ur'(\s*#)|(\s*$)', re.UNICODE)
-    tokenizer = re.compile(ur''' [ \t\f\r\v]* (?: \#.* )? (?:
+    blank_line = re.compile(r'(\s*#)|(\s*$)', re.UNICODE)
+    tokenizer = re.compile(r''' [ \t\f\r\v]* (?: \#.* )? (?:
             (["']) (?P<str> (?: \\. | .)*? ) \1 |        # this must be first!
             [[] (?P<prompt> (?: \\. | .)*? ) []] |
             [$] (?P<param> [a-zA-Z_] [a-zA-Z_0-9]* ) |
@@ -279,7 +279,7 @@ class kqb_parser(object):
                 for i in range(self.lineno - last_lineno - 1): ans.append('')
             ans.append(' ' * (self.indent - indent) + self.line[self.column:])
         if not ans: self.SyntaxError("expected block string", False)
-        return u'\n'.join(scanner.unescape(str) for str in ans)
+        return '\n'.join(scanner.unescape(str) for str in ans)
 
     def parse_simple_match(self):
         token, value = self.get_token()
@@ -429,7 +429,7 @@ class kqb_parser(object):
                tuple((value[0][0] if len(value[0]) == 1
                                   else tuple(value[0]),
                       value[1])
-                     for value in review.itervalues()
+                     for value in review.values()
                       if isinstance(value, tuple)) \
                   if review \
                   else None
