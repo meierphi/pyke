@@ -1,4 +1,4 @@
-# $Id$
+# $Id: qa_helpers.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen
@@ -28,15 +28,15 @@ import sys
 
 class regexp(object):
     r'''
-        >>> m = regexp(ur'(hi)\s*there', u'the msg', u'the prompt')
+        >>> m = regexp(r'(hi)\s*there', 'the msg', 'the prompt')
         >>> m
-        <regexp u'the msg'[the prompt]/(hi)\s*there/>
+        <regexp 'the msg'[the prompt]/(hi)\s*there/>
         >>> m.msg
-        u'the msg'
+        'the msg'
         >>> m.prompt
-        u'the prompt'
-        >>> m.match(u'hithere')
-        u'hi'
+        'the prompt'
+        >>> m.match('hithere')
+        'hi'
     '''
     def __init__(self, regexp, msg=None, prompt=None):
         self.re = re.compile(regexp, re.UNICODE | re.VERBOSE)
@@ -70,11 +70,11 @@ class regexp(object):
 
 class qmap(object):
     r'''
-        >>> m = qmap(u'y', True)
+        >>> m = qmap('y', True)
         >>> m
-        <qmap True = u'y'>
+        <qmap True = 'y'>
         >>> m.test
-        u'y'
+        'y'
         >>> m.value
         True
     '''
@@ -93,7 +93,7 @@ if sys.version_info[0] < 3:
             >>> tuple(urepr('hi\n'))
             (u"'", u'h', u'i', u'\\', u'n', u"'")
         '''
-        if isinstance(x, (str,)):
+        if isinstance(x, str):
             return repr(x.encode('utf-8')).decode('utf-8')
         return str(x)
 else:
@@ -101,11 +101,11 @@ else:
 
 def to_int(str):
     r'''
-        >>> to_int(u' -34')
+        >>> to_int(' -34')
         -34
-        >>> to_int(u' +43')
+        >>> to_int(' +43')
         43
-        >>> to_int(u'43x')
+        >>> to_int('43x')
         Traceback (most recent call last):
             ...
         ValueError: illegal integer: '43x'
@@ -117,11 +117,11 @@ def to_int(str):
 
 def to_float(str):
     r'''
-        >>> str(to_float(u' -34.444'))
+        >>> str(to_float(' -34.444'))
         '-34.444'
-        >>> str(to_float(u' +43'))
+        >>> str(to_float(' +43'))
         '43.0'
-        >>> to_float(u'43.3.3')
+        >>> to_float('43.3.3')
         Traceback (most recent call last):
             ...
         ValueError: illegal floating point number: '43.3.3'
@@ -133,11 +133,11 @@ def to_float(str):
 
 def to_number(str):
     r'''
-        >>> str(to_number(u' -34.444'))
+        >>> str(to_number(' -34.444'))
         '-34.444'
-        >>> to_number(u' +43')
+        >>> to_number(' +43')
         43
-        >>> to_number(u'43.3.3')
+        >>> to_number('43.3.3')
         Traceback (most recent call last):
             ...
         ValueError: illegal number: '43.3.3'
@@ -152,13 +152,13 @@ def to_number(str):
 
 def to_tuple(str, conv_fn=None, test=None, separator=','):
     r'''
-        >>> to_tuple(u'1, 2,3', to_int)
+        >>> to_tuple('1, 2,3', to_int)
         (1, 2, 3)
-        >>> to_tuple(u'1, 2.5, -7e3', to_number)
+        >>> to_tuple('1, 2.5, -7e3', to_number)
         (1, 2.5, -7000.0)
-        >>> to_tuple(u'43', to_number)
+        >>> to_tuple('43', to_number)
         (43,)
-        >>> to_tuple(u'1,43.3.3', to_number)
+        >>> to_tuple('1,43.3.3', to_number)
         Traceback (most recent call last):
             ...
         ValueError: illegal number: '43.3.3'
@@ -175,30 +175,30 @@ def to_tuple(str, conv_fn=None, test=None, separator=','):
 def msg_for(test, type):
     r'''
         >>> msg_for(None, int)
-        >>> msg_for(regexp(u'', u'the msg'), int)
-        u'the msg'
+        >>> msg_for(regexp('', 'the msg'), int)
+        'the msg'
         >>> msg_for(qmap(44, True), int)
-        u'44'
+        '44'
         >>> msg_for(slice(3, 55), int)
-        u'between 3 and 55'
+        'between 3 and 55'
         >>> msg_for(slice(None, 55), int)
-        u'<= 55'
+        '<= 55'
         >>> msg_for(slice(3, None), int)
-        u'>= 3'
+        '>= 3'
         >>> msg_for(slice(None, None), int)
-        u''
+        ''
         >>> msg_for(slice(3, 55), str)
-        u'between 3 and 55 characters'
+        'between 3 and 55 characters'
         >>> msg_for(slice(None, 55), str)
-        u'<= 55 characters'
+        '<= 55 characters'
         >>> msg_for(slice(3, None), str)
-        u'>= 3 characters'
+        '>= 3 characters'
         >>> msg_for(slice(None, None), str)
-        u''
+        ''
         >>> msg_for((slice(3, 5), True), str)
-        u'between 3 and 5 characters or True'
+        'between 3 and 5 characters or True'
         >>> msg_for(True, str)
-        u'True'
+        'True'
     '''
     if test is None: return None
     if isinstance(test, regexp): return test.msg
@@ -220,32 +220,32 @@ def msg_for(test, type):
 
 def match_prompt(test, type, format, default=''):
     r'''
-        >>> match_prompt(None, int, u' [%s] ')
-        u''
-        >>> match_prompt(regexp(u'', u'', u'the prompt'), int, u' [%s] ')
-        u' [the prompt] '
-        >>> match_prompt(qmap(44, True), int, u' [%s] ')
-        u' [44] '
-        >>> match_prompt(slice(3, 55), int, u' [%s] ')
-        u' [3-55] '
-        >>> match_prompt(slice(None, 55), int, u' [%s] ')
-        u' [max 55] '
-        >>> match_prompt(slice(3, None), int, u' [%s] ')
-        u' [min 3] '
-        >>> match_prompt(slice(None, None), int, u' [%s] ', u'foo')
-        u'foo'
-        >>> match_prompt(slice(3, 55), str, u' [%s] ')
-        u' [len: 3-55] '
-        >>> match_prompt(slice(None, 55), str, u' [%s] ')
-        u' [len <= 55] '
-        >>> match_prompt(slice(3, None), str, u' [%s] ')
-        u' [len >= 3] '
-        >>> match_prompt(slice(None, None), str, u' [%s] ')
-        u''
-        >>> match_prompt((slice(3, 5), True), str, u' [%s] ')
-        u' [len: 3-5 or True] '
-        >>> match_prompt(True, str, u' [%s] ')
-        u' [True] '
+        >>> match_prompt(None, int, ' [%s] ')
+        ''
+        >>> match_prompt(regexp('', '', 'the prompt'), int, ' [%s] ')
+        ' [the prompt] '
+        >>> match_prompt(qmap(44, True), int, ' [%s] ')
+        ' [44] '
+        >>> match_prompt(slice(3, 55), int, ' [%s] ')
+        ' [3-55] '
+        >>> match_prompt(slice(None, 55), int, ' [%s] ')
+        ' [max 55] '
+        >>> match_prompt(slice(3, None), int, ' [%s] ')
+        ' [min 3] '
+        >>> match_prompt(slice(None, None), int, ' [%s] ', 'foo')
+        'foo'
+        >>> match_prompt(slice(3, 55), str, ' [%s] ')
+        ' [len: 3-55] '
+        >>> match_prompt(slice(None, 55), str, ' [%s] ')
+        ' [len <= 55] '
+        >>> match_prompt(slice(3, None), str, ' [%s] ')
+        ' [len >= 3] '
+        >>> match_prompt(slice(None, None), str, ' [%s] ')
+        ''
+        >>> match_prompt((slice(3, 5), True), str, ' [%s] ')
+        ' [len: 3-5 or True] '
+        >>> match_prompt(True, str, ' [%s] ')
+        ' [True] '
     '''
 
     def prompt_body(test, type):
@@ -255,18 +255,18 @@ def match_prompt(test, type, format, default=''):
         if isinstance(test, slice):
             if test.start is None:
                 if test.stop is not None:
-                    if issubclass(type, (str,)):
+                    if issubclass(type, str):
                         return "len <= %d" % test.stop
                     else:
                         return "max %d" % test.stop
                 else: return ""
             elif test.stop is None:
-                if issubclass(type, (str,)):
+                if issubclass(type, str):
                     return "len >= %d" % test.start
                 else:
                     return "min %d" % test.start
             else:
-                if issubclass(type, (str,)):
+                if issubclass(type, str):
                     return "len: %d-%d" % (test.start, test.stop)
                 else:
                     return "%d-%d" % (test.start, test.stop)
@@ -281,15 +281,15 @@ def match_prompt(test, type, format, default=''):
 
 def match(ans, test):
     r'''
-        >>> match(u'foobar', None)
-        u'foobar'
-        >>> match(u'hithere', regexp(ur'(hi)\s*there', u'hi there'))
-        u'hi'
-        >>> match(u'hi mom', regexp(ur'(hi)\s*there', u'hi there'))
+        >>> match('foobar', None)
+        'foobar'
+        >>> match('hithere', regexp(r'(hi)\s*there', 'hi there'))
+        'hi'
+        >>> match('hi mom', regexp(r'(hi)\s*there', 'hi there'))
         Traceback (most recent call last):
             ...
         ValueError: hi there
-        >>> match(u'y', qmap(u'y', True))
+        >>> match('y', qmap('y', True))
         True
         >>> match(2, qmap(slice(3, 5), True))
         Traceback (most recent call last):
@@ -314,7 +314,7 @@ def match(ans, test):
         match(ans, test.test)   # raises ValueError if it doesn't match
         return test.value
     elif isinstance(test, slice):
-        if isinstance(ans, (str,)): value = len(ans)
+        if isinstance(ans, str): value = len(ans)
         else: value = ans
         if (test.start is None or value >= test.start) and \
            (test.stop is None or value <= test.stop):
@@ -327,4 +327,5 @@ def match(ans, test):
                 pass
     elif test == ans: return ans
     raise ValueError(msg_for(test, type(ans)))
+
 

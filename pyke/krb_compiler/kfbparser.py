@@ -1,4 +1,4 @@
-# $Id$
+# $Id: kfbparser.py 49507964ae64 2010-03-27 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen

@@ -7,7 +7,7 @@ from pyke import knowledge_engine
 from pyke import krb_traceback
 
 def mk_engine(*paths):
-    if isinstance(self.paths, (str,)):
+    if isinstance(self.paths, str):
         self.paths = (self.paths,)
     return knowledge_engine.engine(*paths)
 
@@ -54,10 +54,10 @@ class bc_tests(pyketest):
                                  self.num_return) as gen:
             for ret_args, plan in gen:
                 if plan_args is None and plan_kws is None:
-                    self.assertTrue(plan is None, "unexpected plan")
+                    self.assert_(plan is None, "unexpected plan")
                     ans.append(ret_args)
                 else:
-                    self.assertTrue(plan is not None, "expected plan")
+                    self.assert_(plan is not None, "expected plan")
                     if plan_args is None: plan_ans = plan(**plan_kws)
                     elif plan_kws is None: plan_ans = plan(*plan_args)
                     else: plan_ans = plan(*plan_args, **plan_vars)

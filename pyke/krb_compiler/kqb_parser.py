@@ -1,4 +1,4 @@
-# $Id$
+# $Id: kqb_parser.py 2922d107410e 2010-04-26 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen
@@ -64,7 +64,7 @@ class kqb_parser(object):
 
     def readline(self):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> p = kqb_parser(StringIO("""
             ... line 1
             ...     # this should be ignored
@@ -118,7 +118,7 @@ class kqb_parser(object):
 
     def get_token(self, check_token=None):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> f = StringIO(r"""
             ...   line 1=2.5: ( /\s* /, $foo) # comment
             ... ,|!-True  "hi\n"  [mom]
@@ -219,7 +219,7 @@ class kqb_parser(object):
 
     def get_block_string(self, stop=None, hanging=False, ending_newlines=False):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> f = StringIO(r"""
             ...     line 1 # comment
             ...        more stuff
@@ -234,11 +234,11 @@ class kqb_parser(object):
             >>> f.name = 'StringIO'
             >>> p = kqb_parser(f)
             >>> p.get_block_string()
-            u'line 1 # comment\n   more stuff\nlast line'
+            'line 1 # comment\n   more stuff\nlast line'
             >>> p.column = 4
             >>> p.indent = 4
             >>> p.get_block_string('!', True)
-            u'hanging line 1\n\nline 2\n  indented\nlast line'
+            'hanging line 1\n\nline 2\n  indented\nlast line'
             >>> f = StringIO(r"""
             ...     ! line 1 # comment
             ...          more stuff
@@ -251,7 +251,7 @@ class kqb_parser(object):
             >>> p.get_token('bang')
             ('bang', None)
             >>> p.get_block_string(hanging=True)
-            u'line 1 # comment\n   more stuff\nlast line'
+            'line 1 # comment\n   more stuff\nlast line'
         '''
         if hanging:
             indent, more_chars = \
@@ -317,7 +317,7 @@ class kqb_parser(object):
 
     def parse_match(self):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> def do(str):
             ...    ans = StringIO(str)
             ...    ans.name = 'StringIO'
@@ -371,16 +371,16 @@ class kqb_parser(object):
 
     def parse_alternatives(self):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> def do(str):
             ...    ans = StringIO(str)
             ...    ans.name = 'StringIO'
             ...    p = kqb_parser(ans)
             ...    alt, review = p.parse_alternatives()
             ...    for tag, msg in alt:
-            ...        print '%s: %s' % (repr(tag), repr(msg.template))
+            ...        print('%s: %s' % (repr(tag), repr(msg.template)))
             ...    for key, msg in sorted(review, key=lambda x: repr(x[0])):
-            ...        print repr(key), '!', repr(msg.template)
+            ...        print(repr(key), '!', repr(msg.template))
             >>> do(r"""
             ...     1: hi mom
             ...        how are you?
@@ -391,10 +391,10 @@ class kqb_parser(object):
             ...         ! = bob
             ... next
             ... """)
-            1: u'hi mom\nhow are you?'
-            'bob': u'yep this is bob'
-            44: u'nope, this is just 44'
-            (1, 'bob', 44) ! u'Just reward!'
+            1: 'hi mom\nhow are you?'
+            'bob': 'yep this is bob'
+            44: 'nope, this is just 44'
+            (1, 'bob', 44) ! 'Just reward!'
         '''
         if self.column >= len(self.line):
             self.readline()
@@ -436,14 +436,14 @@ class kqb_parser(object):
 
     def parse_review(self):
         r'''
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> def do(str):
             ...    ans = StringIO(str)
             ...    ans.name = 'StringIO'
             ...    p = kqb_parser(ans)
             ...    review = p.parse_review()
             ...    for key, msg in sorted(review, key=lambda x: repr(x[0])):
-            ...        print repr(key), '!', repr(msg.template)
+            ...        print(repr(key), '!', repr(msg.template))
             >>> do(r"""
             ...     1 ! hi mom
             ...         how are you?
@@ -452,9 +452,9 @@ class kqb_parser(object):
             ...     3-5! nope, this is just 44
             ... next
             ... """)
-            'bob' ! u'yep this is bob'
-            1 ! u'hi mom\nhow are you?\n! Just reward!'
-            slice(3, 5, None) ! u'nope, this is just 44'
+            'bob' ! 'yep this is bob'
+            1 ! 'hi mom\nhow are you?\n! Just reward!'
+            slice(3, 5, None) ! 'nope, this is just 44'
         '''
         if self.column >= len(self.line):
             self.readline()
@@ -478,13 +478,13 @@ class kqb_parser(object):
     def parse_questions(self):
         r''' question_base.question generator.
 
-            >>> from StringIO import StringIO
+            >>> from io import StringIO
             >>> def do(str):
             ...    ans = StringIO(str)
             ...    ans.name = 'StringIO'
             ...    p = kqb_parser(ans)
             ...    for q in p.parse_questions():
-            ...        print q
+            ...        print(q)
             >>> do(r"""
             ... question1($ans)
             ...     This is the question?
@@ -500,8 +500,8 @@ class kqb_parser(object):
             ...         3: third
             ...
             ... """)
-            <question question1($ans): $ans = <yn: u'This is the question?'>>
-            <question question2($ans): $ans = <select_1(1: 2: 3:): u'This is the second question?'>>
+            <question question1($ans): $ans = <yn: 'This is the question?'>>
+            <question question2($ans): $ans = <select_1(1: 2: 3:): 'This is the second question?'>>
         '''
         self.readline()
         while not self.eof:
@@ -540,4 +540,5 @@ def parse_kqb(filename):
         for question in parser.parse_questions():
             base.add_question(question)
     return base
+
 

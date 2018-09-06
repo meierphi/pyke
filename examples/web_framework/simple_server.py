@@ -1,4 +1,4 @@
-# $Id$
+# $Id: simple_server.py c5bb15998025 2010-03-03 dangyogi $
 # coding=utf-8
 #
 # Copyright © 2008 Bruce Frederiksen

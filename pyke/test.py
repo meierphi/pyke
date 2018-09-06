@@ -1,4 +1,4 @@
-# $Id$
+# $Id: test.py 081917d30609 2010-03-05 mtnyogi $
 # coding=utf-8
 #
 # Copyright © 2008 Bruce Frederiksen
@@ -141,7 +141,7 @@ def is_pattern(data):
     if isinstance(data, tuple):
         if data and is_rest_var(data[-1]): return True
         return any(is_pattern(element) for element in data)
-    if isinstance(data, (str,)) and len(data) > 1 and \
+    if isinstance(data, str) and len(data) > 1 and \
        data[0] == '$' and (data[1].isalpha() or data[1] == '_'):
         return True
     return False
@@ -165,7 +165,7 @@ def is_rest_var(data):
     >>> is_rest_var('')
     False
     '''
-    return isinstance(data, (str,)) and len(data) > 2 and \
+    return isinstance(data, str) and len(data) > 2 and \
            data.startswith('*$') and (data[2].isalpha() or data[2] == '_')
 
 def as_pattern(data):
@@ -181,7 +181,7 @@ def as_pattern(data):
                                          rest_var)
         return pattern.pattern_tuple(tuple(as_pattern(element)
                                            for element in data))
-    if isinstance(data, (str,)) and is_pattern(data):
+    if isinstance(data, str) and is_pattern(data):
         name = data[1:]
         if name[0] == '_': return contexts.anonymous(name)
         return contexts.variable(name)

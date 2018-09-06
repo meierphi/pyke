@@ -1,4 +1,4 @@
-# $Id$
+# $Id: wsgi_app.py 9f7068449a4b 2010-03-08 mtnyogi $
 # coding=utf-8
 #
 # Copyright © 2008 Bruce Frederiksen

@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: python_premise.txt 9c1b571b39ac 2009-02-15 mtnyogi $
 .. 
 .. Copyright © 2007-2008 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: python_premise.txt 9c1b571b39ac 2009-02-15 mtnyogi $
 /uservalues
 
 =====================

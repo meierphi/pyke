@@ -1,4 +1,4 @@
-# $Id$
+# $Id: pattern.py 081917d30609 2010-03-05 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -70,7 +70,7 @@ class pattern_tuple(pattern):
                self.elements == b.elements and self.rest_var == b.rest_var
 
     def match_data(self, bindings, my_context, data):
-        if isinstance(data, (str,)): return False
+        if isinstance(data, str): return False
         try:
             data = tuple(data)
         except TypeError:

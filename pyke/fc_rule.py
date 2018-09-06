@@ -1,4 +1,4 @@
-# $Id$
+# $Id: fc_rule.py 38124415f0b5 2010-04-21 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen

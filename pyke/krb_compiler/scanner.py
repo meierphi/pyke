@@ -1,4 +1,4 @@
-# $Id$
+# $Id: scanner.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -594,12 +594,12 @@ def tokenize_file(filename = 'TEST/scan_test'):
         LexToken(NUMBER_TOK,0,8,124)
         LexToken(RP_TOK,')',8,125)
         LexToken(NL_TOK,'\n',8,126)
-        LexToken(NUMBER_TOK,3.1400000000000001,9,129)
-        LexToken(NUMBER_TOK,0.98999999999999999,9,134)
+        LexToken(NUMBER_TOK,3.14,9,129)
+        LexToken(NUMBER_TOK,0.99,9,134)
         LexToken(NUMBER_TOK,3.0,10,143)
-        LexToken(NUMBER_TOK,0.29999999999999999,10,146)
+        LexToken(NUMBER_TOK,0.3,10,146)
         LexToken(NUMBER_TOK,3000000.0,10,149)
-        LexToken(NUMBER_TOK,3.0000000000000001e-06,10,153)
+        LexToken(NUMBER_TOK,3e-06,10,153)
         LexToken(NL_TOK,'\n',10,158)
         LexToken(DEINDENT_TOK,'\n    ',11,158)
         LexToken(ASSERT_TOK,'assert',11,163)

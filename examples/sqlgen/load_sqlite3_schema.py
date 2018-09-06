@@ -1,4 +1,4 @@
-# $Id$
+# $Id: load_sqlite3_schema.py f163995c2be9 2010-02-25 mtnyogi $
 # coding=utf-8
 #
 # Copyright © 2008 Bruce Frederiksen

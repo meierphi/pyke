@@ -1,4 +1,4 @@
-# $Id$
+# $Id: question_base.py 081917d30609 2010-03-05 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen
@@ -71,7 +71,7 @@ class question(knowledge_base.knowledge_entity_list):
             raise ValueError("question %s: answer parameter, %s, "
                              "not in params list: %s" % (answer_param, params))
         self.input_param_positions = \
-            tuple([i for i in range(len(self.params)) if i != self.answer_param_position])
+            tuple([i for i in list(range(len(self.params))) if i != self.answer_param_position])
         self.user_question = user_question
         self.cache = {}
 

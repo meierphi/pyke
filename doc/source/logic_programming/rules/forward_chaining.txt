@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: forward_chaining.txt 9f7068449a4b 2010-03-08 mtnyogi $
 .. 
 .. Copyright © 2007-2008 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: forward_chaining.txt 9f7068449a4b 2010-03-08 mtnyogi $
 /uservalues
 
 ==================

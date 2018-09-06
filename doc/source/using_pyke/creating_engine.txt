@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: creating_engine.txt efc7674a8d3a 2010-03-29 mtnyogi $
 .. 
 .. Copyright © 2010 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: creating_engine.txt efc7674a8d3a 2010-03-29 mtnyogi $
 /uservalues
 
 ===================================

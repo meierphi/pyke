@@ -29,7 +29,7 @@ def bc_test(rb_names, goal, num_return, args = (), rb_name = None,
             plan_args = None, plan_kws = None):
     Engine.reset()
     try:
-        if isinstance(rb_names, (str,)): rb_names = (rb_names,)
+        if isinstance(rb_names, str): rb_names = (rb_names,)
         for rb_name in rb_names:
             Engine.activate(rb_name)
         if rb_name is None: rb_name = rb_names[0]

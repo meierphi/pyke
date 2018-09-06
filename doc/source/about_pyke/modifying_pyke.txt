@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: modifying_pyke.txt 70f7f9ee163a 2010-03-11 mtnyogi $
 .. 
 .. Copyright © 2009 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: modifying_pyke.txt 70f7f9ee163a 2010-03-11 mtnyogi $
 /uservalues
 
 ===================================

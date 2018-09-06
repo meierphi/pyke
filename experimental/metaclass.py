@@ -130,7 +130,7 @@ class tracked_object(object, metaclass=metaclass_option1):
         >>> class foo(tracked_object):
         ...     def __init__(self, arg):
         ...         super(foo, self).__init__()
-        ...         print "foo.__init__:", arg
+        ...         print("foo.__init__:", arg)
         ...         self.x = arg    # should be ignored
         ... # doctest: +NORMALIZE_WHITESPACE
         metaclass: name foo , bases (<class 'experimental.metaclass.tracked_object'>,) ,
@@ -142,7 +142,7 @@ class tracked_object(object, metaclass=metaclass_option1):
         >>> class bar(foo):
         ...     def __init__(self, arg1, arg2):
         ...         super(bar, self).__init__(arg1)
-        ...         print "bar.__init__:", arg1, arg2
+        ...         print("bar.__init__:", arg1, arg2)
         ...         self.y = arg2    # should be ignored
         ... # doctest: +NORMALIZE_WHITESPACE
         metaclass: name bar , bases (<class 'experimental.metaclass.foo'>,) ,
@@ -312,3 +312,4 @@ def test_foo_option1():
 if __name__ == "__main__":
     #test_foo_option1()
     test_foo_option2()
+

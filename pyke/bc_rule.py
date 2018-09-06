@@ -1,4 +1,4 @@
-# $Id$
+# $Id: bc_rule.py 081917d30609 2010-03-05 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen

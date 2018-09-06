@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: examples.txt 6de8ee4e7d2d 2010-03-29 mtnyogi $
 .. 
 .. Copyright © 2008 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: examples.txt 6de8ee4e7d2d 2010-03-29 mtnyogi $
 /uservalues
 
 

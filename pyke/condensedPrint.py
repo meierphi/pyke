@@ -1,4 +1,4 @@
-# $Id$
+# $Id: condensedPrint.py 081917d30609 2010-03-05 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -53,7 +53,7 @@ def format(x, lenleft, maxlen, maxlines, indent = 0):
     """
     if not isinstance(x, (list, tuple)):
         if len(x) <= lenleft: return x, 0
-        if isinstance(x, (str,)) and x[-1] in "'\"":
+        if isinstance(x, str) and x[-1] in "'\"":
             if lenleft >= 5: return x[:lenleft-4] + '...' + x[-1], 0
         else:
             if lenleft >= 4: return x[:lenleft-3] + '...', 0
@@ -90,7 +90,7 @@ def cprint2(obj, maxdepth):
         return printSeq('[', ']', obj, maxdepth)
     if isinstance(obj, dict):
         return printDict(obj, maxdepth)
-    if isinstance(obj, (str,)):
+    if isinstance(obj, str):
         return printStr(obj)
     try:
         return str(obj)

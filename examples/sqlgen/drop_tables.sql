@@ -1,4 +1,4 @@
-# $Id$
+# $Id: drop_tables.sql c0848aaeaad7 2008-03-03 mtnyogi $
 #
 # Copyright © 2008 Bruce Frederiksen
 #

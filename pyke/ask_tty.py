@@ -1,4 +1,4 @@
-# $Id$
+# $Id: ask_tty.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen
@@ -43,7 +43,7 @@ import sys
 import itertools
 from pyke import qa_helpers
 
-encoding = 'UTF-8'
+encoding = None         # probably not needed with Python3.x...
 
 # The answer has been converted to lowercase before these matches:
 yes_match = ('y', 'yes', 't', 'true')
@@ -51,14 +51,14 @@ no_match = ('n', 'no', 'f', 'false')
 
 def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> get_answer(u'enter number?', '[0-10]', qa_helpers.to_int,
+        >>> get_answer('enter number?', '[0-10]', qa_helpers.to_int,
         ...            slice(3,5))
         ______________________________________________________________________________
         enter number? [0-10] 4
         >>> sys.stdin = StringIO('2\n4\n')
-        >>> get_answer(u'enter number?', '\n[0-10]', qa_helpers.to_int,
+        >>> get_answer('enter number?', '\n[0-10]', qa_helpers.to_int,
         ...            slice(3,5))
         ______________________________________________________________________________
         enter number?
@@ -69,8 +69,8 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
         enter number?
         [0-10] 4
         >>> sys.stdin = StringIO('4\n')
-        >>> get_answer(u'enter number?\n', '[0-10]', qa_helpers.to_int, slice(3,5),
-        ...            ((3, u'not enough'), (4, u'hurray!'), (5, u'too much')))
+        >>> get_answer('enter number?\n', '[0-10]', qa_helpers.to_int, slice(3,5),
+        ...            ((3, 'not enough'), (4, 'hurray!'), (5, 'too much')))
         ______________________________________________________________________________
         enter number?
         [0-10] hurray!
@@ -115,13 +115,13 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
 
 def ask_yn(question, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('yes\n')
-        >>> ask_yn(u'got it?')
+        >>> ask_yn('got it?')
         ______________________________________________________________________________
         got it? (y/n) True
         >>> sys.stdin = StringIO('N\n')
-        >>> ask_yn(u'got it?')
+        >>> ask_yn('got it?')
         ______________________________________________________________________________
         got it? (y/n) False
     '''
@@ -132,9 +132,9 @@ def ask_yn(question, review=None):
 
 def ask_integer(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_integer(u'enter number?')
+        >>> ask_integer('enter number?')
         ______________________________________________________________________________
         enter number? (int) 4
     '''
@@ -146,9 +146,9 @@ def ask_integer(question, match=None, review=None):
 
 def ask_float(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_float(u'enter number?')
+        >>> ask_float('enter number?')
         ______________________________________________________________________________
         enter number? (float) 4.0
     '''
@@ -160,9 +160,9 @@ def ask_float(question, match=None, review=None):
 
 def ask_number(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_number(u'enter number?')
+        >>> ask_number('enter number?')
         ______________________________________________________________________________
         enter number? (number) 4
     '''
@@ -174,11 +174,11 @@ def ask_number(question, match=None, review=None):
 
 def ask_string(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('yes\n')
-        >>> ask_string(u'enter string?')
+        >>> ask_string('enter string?')
         ______________________________________________________________________________
-        enter string? u'yes'
+        enter string? 'yes'
     '''
     return get_answer(question, qa_helpers.match_prompt(match, str, "[%s]",
                                                         ''),
@@ -187,11 +187,11 @@ def ask_string(question, match=None, review=None):
 
 def ask_select_1(question, alternatives, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('2\n')
-        >>> ask_select_1(u'which one?',
-        ...              (('a', u'first one'), ('b', u'second one'),
-        ...               ('c', u'third one')))
+        >>> ask_select_1('which one?',
+        ...              (('a', 'first one'), ('b', 'second one'),
+        ...               ('c', 'third one')))
         ______________________________________________________________________________
         which one?
           1. first one
@@ -211,11 +211,11 @@ def ask_select_1(question, alternatives, review=None):
 
 def ask_select_n(question, alternatives, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('1,3\n')
-        >>> ask_select_n(u'which one?',
-        ...              (('a', u'first one'), ('b', u'second one'),
-        ...               ('c', u'third one')))
+        >>> ask_select_n('which one?',
+        ...              (('a', 'first one'), ('b', 'second one'),
+        ...               ('c', 'third one')))
         ______________________________________________________________________________
         which one?
           1. first one
@@ -235,4 +235,5 @@ def ask_select_n(question, alternatives, review=None):
                                          test=match),
                          review=review)
     return tuple(alternatives[i-1][0] for i in i_tuple)
+
 

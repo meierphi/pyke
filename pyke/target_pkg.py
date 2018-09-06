@@ -1,4 +1,4 @@
-# $Id$
+# $Id: target_pkg.py 2922d107410e 2010-04-26 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2009 Bruce Frederiksen
@@ -30,6 +30,7 @@
 import os, os.path
 import time
 import sys
+import imp
 import re
 import pyke
 
@@ -400,7 +401,7 @@ class target_pkg(object):
             module = sys.modules[module_path]
             if filename in self.compiled_targets:
                 if debug: print("load_module: reloading", file=sys.stderr)
-                module = reload(module)
+                module = imp.reload(module)
         elif do_import:
             if debug: print("load_module: importing", file=sys.stderr)
             module = import_(module_path)
@@ -424,8 +425,7 @@ class target_pkg(object):
             import contextlib
             import io
             ctx_lib = \
-                contextlib.closing(
-                    io.StringIO(self.loader.get_data(full_path)))
+                contextlib.closing(io.BytesIO(self.loader.get_data(full_path)))
         else:
             ctx_lib = open(full_path, 'rb')
         with ctx_lib as f:

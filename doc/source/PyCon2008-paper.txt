@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: PyCon2008-paper.txt 057d79259b20 2009-05-14 mtnyogi $
 .. 
 .. Copyright © 2008 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: PyCon2008-paper.txt 057d79259b20 2009-05-14 mtnyogi $
 /uservalues
 
 =========================================================================

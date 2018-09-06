@@ -1,4 +1,4 @@
-# $Id$
+# $Id: driver.py 6de8ee4e7d2d 2010-03-29 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -207,7 +207,7 @@ def general(person1 = None, person2 = None, relationship = None):
 import types
 
 def make_pattern(x):
-    if isinstance(x, (str,)):
+    if isinstance(x, str):
         if x[0] == '$': return contexts.variable(x[1:])
         return pattern.pattern_literal(x)
     if isinstance(x, (tuple, list)):

@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: tuple_patterns.txt a2119c07028f 2008-10-27 mtnyogi $
 .. 
 .. Copyright © 2008 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: tuple_patterns.txt a2119c07028f 2008-10-27 mtnyogi $
 /uservalues
 
 ================

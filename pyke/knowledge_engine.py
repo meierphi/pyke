@@ -1,4 +1,4 @@
-# $Id$
+# $Id: knowledge_engine.py 2922d107410e 2010-04-26 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -25,6 +25,7 @@
 import sys
 import types
 import os, os.path
+import imp
 import re
 import contextlib
 
@@ -122,7 +123,7 @@ class engine(object):
             path, target_package_name = path
         if isinstance(path, types.ModuleType):
             path = path.__file__
-        if not isinstance(path, ((str,), type(None))):
+        if not isinstance(path, (str, type(None))):
             raise ValueError("illegal path argument: string expected, got " + \
                                str(type(path)))
 
@@ -262,7 +263,7 @@ class engine(object):
     def add_universal_fact(self, kb_name, fact_name, args):
         r'''Universal facts are not deleted by engine.reset.
         '''
-        if isinstance(args, (str,)):
+        if isinstance(args, str):
             raise TypeError("engine.add_universal_fact: "
                             "illegal args type, %s" % type(args))
         args = tuple(args)
@@ -272,7 +273,7 @@ class engine(object):
     def add_case_specific_fact(self, kb_name, fact_name, args):
         r'''Case specific facts are deleted by engine.reset.
         '''
-        if isinstance(args, (str,)):
+        if isinstance(args, str):
             raise TypeError("engine.add_case_specific_fact: "
                             "illegal args type, %s" % type(args))
         args = tuple(args)
@@ -280,12 +281,12 @@ class engine(object):
                    .add_case_specific_fact(fact_name, args)
 
     def assert_(self, kb_name, entity_name, args):
-        if isinstance(args, (str,)):
+        if isinstance(args, str):
             raise TypeError("engine.assert_: "
                             "illegal args type, %s" % type(args))
         args = tuple(args)
         return self.get_kb(kb_name, fact_base.fact_base) \
-                   .assertTrue(entity_name, args)
+                   .assert_(entity_name, args)
 
     def activate(self, *rb_names):
         r'''Activate rule bases.
@@ -322,8 +323,8 @@ class engine(object):
             ...        'family.how_related($person1, $person2, $how_related)',
             ...        person1='bruce') as it:
             ...     for vars, plan in it:
-            ...         print "bruce is related to", vars['person2'], "as", \
-            ...               vars['how_related']
+            ...         print("bruce is related to", vars['person2'], "as", \
+            ...               vars['how_related'])
 
         vars is a dictionary of all of the logic variables in the goal
         (without the '$') and their values.  The plan is a callable python
@@ -358,7 +359,7 @@ class engine(object):
             ...     'bc_example.how_related($person1, $person2, $how_related)',
             ...     person1='bruce',
             ...     person2='m_thomas')
-            >>> print "bruce is related to m_thomas as", vars['how_related']
+            >>> print("bruce is related to m_thomas as", vars['how_related'])
             bruce is related to m_thomas as ('father', 'son')
 
         If you want more than one answer, see engine.prove_goal.
@@ -377,7 +378,7 @@ class engine(object):
 
         Deprecated.  Use engine.prove_goal.
         '''
-        if isinstance(fixed_args, (str,)):
+        if isinstance(fixed_args, str):
             raise TypeError("engine.prove_n: fixed_args must not be a string, "
                             "did you forget a , (%(arg)s) => (%(arg)s,)?" %
                             {'arg': repr(fixed_args)})
@@ -471,7 +472,7 @@ def _get_target_pkg(target_name):
     if do_reload:
         if debug:
             print("_get_target_pkg doing reload for", target_name, file=sys.stderr)
-        module = reload(module)
+        module = imp.reload(module)
         suffix = module.__file__[-4:]
         if suffix in ('.pyc', '.pyo'):
             Compiled_suffix = suffix
@@ -536,4 +537,5 @@ def in_sys_path(path):
     r'''Assumes path is a normalized abspath.
     '''
     return path in Sys_path
+
 

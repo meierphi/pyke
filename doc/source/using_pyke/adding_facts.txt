@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: adding_facts.txt 56035209fc8e 2010-03-08 mtnyogi $
 .. 
 .. Copyright © 2010 Bruce Frederiksen
 .. 
@@ -33,7 +33,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: adding_facts.txt 56035209fc8e 2010-03-08 mtnyogi $
 /uservalues
 
 ===================================

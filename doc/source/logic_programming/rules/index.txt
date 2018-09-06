@@ -1,4 +1,4 @@
-.. $Id$
+.. $Id: index.txt a2119c07028f 2008-10-27 mtnyogi $
 .. 
 .. Copyright © 2007-2008 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id$
+    filedate: $Id: index.txt a2119c07028f 2008-10-27 mtnyogi $
 /uservalues
 
 =======
